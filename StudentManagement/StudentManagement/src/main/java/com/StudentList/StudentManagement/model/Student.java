@@ -27,15 +27,14 @@ public class Student {
 
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 30, message = "Name must be between 2 and 30 characters")
-    @Pattern(
-        regexp = "^[A-Za-z ]+$",
-        message = "Name must contain only letters and spaces"
-    )
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters and spaces")
     private String name;
+
+    @Email(message = "Email should be valid")
     private String email;
 
     @Column(name = "class")
-    private String className; 
+    private String className;
 
     private LocalDate date;
 
@@ -47,4 +46,3 @@ public class Student {
     private Long phoneNo;
     private String address;
 }
-

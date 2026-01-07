@@ -29,7 +29,7 @@ public class StudentServiceImpli implements StudentService {
         student.setFatherName(dto.getFatherName());
         student.setPhoneNo(dto.getPhoneNo());
         student.setAddress(dto.getAddress());
-        student.setDate(dto.getDate()); // or LocalDate.now()
+        student.setDate(dto.getDate());
 
         return student;
     }

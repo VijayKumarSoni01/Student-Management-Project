@@ -85,8 +85,10 @@
 --
 | Service | Port | Database |
 |------|------|---------|
+| Eureka Server | 8761 | -- |
 | StudentManagement | 8080 | student_db |
 | AttendanceManagement | 8081 | attendance_db |
+
 --
 
 Services communicate using service names, not hardcoded ports.

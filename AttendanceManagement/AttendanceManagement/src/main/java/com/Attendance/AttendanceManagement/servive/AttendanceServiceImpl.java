@@ -64,4 +64,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         return response;
     }
+
+    @Override
+    public List<StudentAttendanceResponseDto> getAllStudentsAttendance() {
+        List<StudentResponseDto> students =
+                studentClient.getAllStudents();
+
+        return students.stream()
+                .map(s -> getStudentAttendance(s.getRollNo()))
+                .toList();
+    }
 }

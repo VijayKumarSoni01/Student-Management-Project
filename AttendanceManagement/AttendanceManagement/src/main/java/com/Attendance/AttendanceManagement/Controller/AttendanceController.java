@@ -26,13 +26,6 @@ public class AttendanceController {
         return attendanceService.markAttendance(rollNo, status);
     }
 
-    @GetMapping("/student/{rollNo}")
-    public ResponseEntity<StudentAttendanceResponseDto> getStudentAttendance(@PathVariable Long rollNo) {
-
-        return ResponseEntity.ok(
-                attendanceService.getStudentAttendance(rollNo));
-    }
-
     @PostMapping("/allStudents")
     public void markBulkAttendance(
             @RequestBody List<BulkAttendanceRequestDto> requests) {
@@ -40,6 +33,20 @@ public class AttendanceController {
         requests.forEach(req -> attendanceService.markAttendance(
                 req.getRollNo(),
                 req.getStatus()));
+    }
+
+    @GetMapping("/student/{rollNo}")
+    public ResponseEntity<StudentAttendanceResponseDto> getStudentAttendance(@PathVariable Long rollNo) {
+
+        return ResponseEntity.ok(
+                attendanceService.getStudentAttendance(rollNo));
+    }
+
+    @GetMapping("/allStudents")
+    public ResponseEntity<List<StudentAttendanceResponseDto>> getAllStudentsAttendance() {
+
+        return ResponseEntity.ok(
+                attendanceService.getAllStudentsAttendance());
     }
 
 }

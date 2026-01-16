@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.Attendance.AttendanceManagement.dto.StudentResponseDto;
 
-@FeignClient(name = "student-service")
+@FeignClient(name = "student-service",  url = "http://localhost:8080")
 public interface StudentClient {
 
     @GetMapping("/api/students/{rollNo}")

@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Attendance.AttendanceManagement.client.StudentClient;
+import com.Attendance.AttendanceManagement.dto.AttendanceDTO;
 import com.Attendance.AttendanceManagement.dto.AttendanceRecordDto;
 import com.Attendance.AttendanceManagement.dto.StudentAttendanceResponseDto;
 import com.Attendance.AttendanceManagement.dto.StudentResponseDto;
 import com.Attendance.AttendanceManagement.entityEnum.StatusEnum;
+import com.Attendance.AttendanceManagement.mapper.AttendanceMapper;
 import com.Attendance.AttendanceManagement.model.Attendance;
 import com.Attendance.AttendanceManagement.repository.AttendanceRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
@@ -24,17 +28,29 @@ public class AttendanceServiceImpl implements AttendanceService {
     private StudentClient studentClient;
 
     @Override
-    public Attendance markAttendance(Long rollNo, String status) {
+    @Transactional
+    public AttendanceDTO markAttendance(Long rollNo) {
 
-        // validate student from StudentManagement
         studentClient.getStudent(rollNo);
 
-        Attendance attendance = new Attendance();
-        attendance.setRollNo(rollNo);
-        attendance.setDate(LocalDate.now());
-        attendance.setStatus(StatusEnum.valueOf(status.toUpperCase()));
+        LocalDate today = LocalDate.now();
 
-        return attendanceRepository.save(attendance);
+        Attendance attendance = attendanceRepository
+                .findByRollNoAndDate(rollNo, today)
+                .orElseGet(() -> {
+                    Attendance a = new Attendance();
+                    a.setRollNo(rollNo);
+                    a.setDate(today);
+                    a.setStatus(StatusEnum.ABSENT);
+                    return a;
+                });
+
+        if (attendance.getStatus() == StatusEnum.ABSENT) {
+            attendance.setStatus(StatusEnum.PRESENT);
+        }
+
+        Attendance saved = attendanceRepository.save(attendance);
+        return AttendanceMapper.toDTO(saved);
     }
 
     @Override
@@ -42,8 +58,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         StudentResponseDto student = studentClient.getStudent(rollNo);
 
-        List<Attendance> list =
-                attendanceRepository.findByRollNo(rollNo);
+        List<Attendance> list = attendanceRepository.findByRollNo(rollNo);
 
         List<AttendanceRecordDto> history = list.stream()
                 .map(a -> {
@@ -54,8 +69,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 })
                 .toList();
 
-        StudentAttendanceResponseDto response =
-                new StudentAttendanceResponseDto();
+        StudentAttendanceResponseDto response = new StudentAttendanceResponseDto();
 
         response.setRollNo(student.getRollNo());
         response.setStudentName(student.getName());
@@ -67,11 +81,31 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public List<StudentAttendanceResponseDto> getAllStudentsAttendance() {
-        List<StudentResponseDto> students =
-                studentClient.getAllStudents();
+        List<StudentResponseDto> students = studentClient.getAllStudents();
 
         return students.stream()
                 .map(s -> getStudentAttendance(s.getRollNo()))
                 .toList();
     }
+
+    @Override
+    public AttendanceDTO updateAttendance(Long rollNo) {
+
+        LocalDate today = LocalDate.now();
+
+        Attendance attendance = attendanceRepository
+                .findByRollNoAndDate(rollNo, today)
+                .orElseThrow(() -> new RuntimeException("Attendance for today not found"));
+
+        if (attendance.getStatus() == StatusEnum.PRESENT) {
+            throw new IllegalStateException("Attendance already PRESENT");
+        }
+
+        attendance.setStatus(StatusEnum.PRESENT);
+
+        Attendance updated = attendanceRepository.save(attendance);
+
+        return AttendanceMapper.toDTO(updated);
+    }
+
 }

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.Attendance.AttendanceManagement.dto.AttendanceDTO;
 import com.Attendance.AttendanceManagement.dto.BulkAttendanceRequestDto;
 import com.Attendance.AttendanceManagement.dto.StudentAttendanceResponseDto;
-import com.Attendance.AttendanceManagement.model.Attendance;
 import com.Attendance.AttendanceManagement.servive.AttendanceService;
 
 @RestController
@@ -19,11 +19,8 @@ public class AttendanceController {
     private AttendanceService attendanceService;
 
     @PostMapping("/{rollNo}")
-    public Attendance markAttendance(
-            @PathVariable Long rollNo,
-            @RequestParam String status) {
-
-        return attendanceService.markAttendance(rollNo, status);
+    public AttendanceDTO markAttendance(@PathVariable Long rollNo) {
+        return attendanceService.markAttendance(rollNo);
     }
 
     @PostMapping("/allStudents")
@@ -31,8 +28,12 @@ public class AttendanceController {
             @RequestBody List<BulkAttendanceRequestDto> requests) {
 
         requests.forEach(req -> attendanceService.markAttendance(
-                req.getRollNo(),
-                req.getStatus()));
+                req.getRollNo()));
+    }
+
+    @PatchMapping("/{rollNo}")
+    public AttendanceDTO updateAttendance(@PathVariable Long rollNo) {
+        return attendanceService.updateAttendance(rollNo);
     }
 
     @GetMapping("/student/{rollNo}")

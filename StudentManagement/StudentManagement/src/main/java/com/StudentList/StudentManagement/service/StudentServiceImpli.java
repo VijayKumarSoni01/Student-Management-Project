@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.StudentList.StudentManagement.dto.StudentResponseDto;
+import com.StudentList.StudentManagement.dto.StudentPublicDTO;
 import com.StudentList.StudentManagement.dto.StudentRequestDto;
 import com.StudentList.StudentManagement.model.Gender;
 import com.StudentList.StudentManagement.model.Student;
@@ -41,7 +42,11 @@ public class StudentServiceImpli implements StudentService {
         dto.setName(student.getName());
         dto.setClassName(student.getClassName());
         dto.setGender(student.getGender().name());
+        dto.setDate(student.getDate());
+        dto.setEmail(student.getEmail());
         dto.setFatherName(student.getFatherName());
+        dto.setPhoneNo(student.getPhoneNo());
+        dto.setAddress(student.getAddress());
         return dto;
     }
 
@@ -107,8 +112,23 @@ public class StudentServiceImpli implements StudentService {
                     throw new IllegalArgumentException("Invalid field: " + field);
             }
         });
-        studentRepository.save(student) ;
+        studentRepository.save(student);
         return mapToDTO(student);
+    }
+
+    @Override
+    public List<StudentPublicDTO> getPublicStudents() {
+
+        return studentRepository.findAll()
+                .stream()
+                .map(student -> {
+                    StudentPublicDTO dto = new StudentPublicDTO();
+                    dto.setRollNo(student.getRollNo());
+                    dto.setName(student.getName());
+                    dto.setClassName(student.getClassName());
+                    return dto;
+                })
+                .toList();
     }
 
 }

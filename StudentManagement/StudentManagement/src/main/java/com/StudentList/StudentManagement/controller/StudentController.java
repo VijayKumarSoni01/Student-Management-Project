@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.StudentList.StudentManagement.dto.StudentResponseDto;
+import com.StudentList.StudentManagement.dto.StudentPublicDTO;
 import com.StudentList.StudentManagement.dto.StudentRequestDto;
 import com.StudentList.StudentManagement.service.StudentService;
 
@@ -33,6 +34,11 @@ public class StudentController {
         return studentService.addStudent(dto);
     }
 
+    @GetMapping("/public")
+    public List<StudentPublicDTO> getPublicStudents() {
+        return studentService.getPublicStudents();
+    }
+
     @GetMapping
     public List<StudentResponseDto> getAllStudents() {
         return studentService.getAllStudents();
@@ -49,9 +55,9 @@ public class StudentController {
     }
 
     @PatchMapping("/update/{rollNo}")
-    public ResponseEntity<StudentResponseDto> 
-    updatePartialStudent(@PathVariable Long rollNo, @RequestBody Map<String, Object> update){
+    public ResponseEntity<StudentResponseDto> updatePartialStudent(@PathVariable Long rollNo,
+            @RequestBody Map<String, Object> update) {
         return ResponseEntity.ok(studentService.updatePartialStudent(rollNo, update));
     }
-    
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.StudentList.StudentManagement.dto.StudentResponseDto;
+import com.StudentList.StudentManagement.dto.StudentPublicDTO;
 import com.StudentList.StudentManagement.dto.StudentRequestDto;
 
 public interface StudentService {
@@ -17,6 +18,8 @@ public interface StudentService {
     List<StudentResponseDto> searchByName(String name);
 
     StudentResponseDto updatePartialStudent(Long rollNo, Map<String,Object> update);
+
+    List<StudentPublicDTO> getPublicStudents();
 }
 
 

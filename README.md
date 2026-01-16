@@ -119,11 +119,11 @@ Both business services are secured using Spring Security with role-based authori
 
 - 🐙 Git & GitHub
 
-🔌 Services & Ports
-🚀 Service	🔢 Port	🗄️ Database
-🧭 Eureka Server	8761	—
-🎓 StudentManagement	8080	student_db
-🗓️ AttendanceManagement	8081	attendance_db
+🔌 SERVICES & PORTS
+🚀 SERVICE	🔢 PORT	🗄️ DATABASE
+🧭 EUREKA SERVER	8761	—
+🎓 STUDENTMANAGEMENT	8080	STUDENT_DB
+🗓️ ATTENDANCEMANAGEMENT	8081	ATTENDANCE_DB
 
 ✅ Services communicate using service names, not hardcoded ports.
 

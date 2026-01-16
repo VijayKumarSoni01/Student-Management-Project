@@ -1,8 +1,13 @@
-# Project Overview
+🎓 **Student & Attendance Management System**
 
-**The application is divided into three independent Spring Boot applications working together.**
+# 🚀 Spring Boot Microservices with 🔐 Role-Based Security
+📌 Project Overview
 
-# StudentManagement Service
+The application is divided into three independent Spring Boot applications working together using a microservices architecture.
+Both business services are secured using Spring Security with role-based authorization.
+
+# 🎓 StudentManagement Service
+- Responsibilities
 
 - Manages student details
 
@@ -14,25 +19,55 @@
 
 - Registers itself with Eureka Server
 
-- Uses its own database: student_db
+# Security
 
-# AttendanceManagement Service
+- Spring Security implemented
+
+- Role-based access control
+
+- Secured REST endpoints
+
+- Centralized authentication logic
+
+# 🗄️ Database
+
+- student_db
+
+# 🗓️ AttendanceManagement Service
+- Responsibilities
 
 - Manages daily student attendance
 
-- Marks attendance as PRESENT / ABSENT / LEAVE
+- Marks attendance as PRESENT, ABSENT, or LEAVE
 
 - Automatically stores attendance date
 
 - Fetches student details from StudentManagement
 
-- Uses Feign Client for inter-service communication
+- Inter-Service Communication
 
-- Uses Eureka for service discovery (no hardcoded URLs)
+- Uses Feign Client
 
-- Uses its own database: attendance_db
+- Service discovery via Eureka Server
 
-# Eureka Server
+- No hardcoded URLs or ports
+
+# Security
+
+- Spring Security implemented
+
+- Role-based access control
+
+- Endpoint-level authorization
+
+- Secure inter-service communication
+
+# 🗄️ Database
+
+- attendance_db
+
+# 🧭 Eureka Server
+- Responsibilities
 
 - Acts as a service registry
 
@@ -42,17 +77,19 @@
 
 - Eliminates hardcoded hostnames and ports
 
-# Microservices Architecture
+- Microservices Architecture
 
 - Independent Spring Boot applications
 
 - Separate databases for each service
 
-- REST-based communication between services
+- REST-based inter-service communication
 
 - Service discovery using Eureka Server
 
 - Declarative REST calls using Feign Client
+
+- Spring Security with role-based authorization
 
 - No shared entities or repositories
 
@@ -60,35 +97,42 @@
 
 - Scalable and production-style design
 
-# Tech Stack
+# 🛠️ Tech Stack
 
-- Java 21
+- ☕ Java 21
 
-- Spring Boot
+- 🌱 Spring Boot
 
-- Spring Cloud (Eureka, Feign)
+- 🔐 Spring Security
 
-- Spring Data JPA
+- ☁️ Spring Cloud (Eureka, Feign)
 
-- REST APIs
+- 🗃️ Spring Data JPA
 
-- MySQL
+- 🔄 REST APIs
 
-- Lombok
+- 🐬 MySQL
 
-- Maven
+- 🧰 Lombok
 
-- Git & GitHub
+- 📦 Maven
 
-# Services & Ports
+- 🐙 Git & GitHub
 
---
-| Service | Port | Database |
-|------|------|---------|
-| Eureka Server | 8761 | -- |
-| StudentManagement | 8080 | student_db |
-| AttendanceManagement | 8081 | attendance_db |
+🔌 Services & Ports
+🚀 Service	🔢 Port	🗄️ Database
+🧭 Eureka Server	8761	—
+🎓 StudentManagement	8080	student_db
+🗓️ AttendanceManagement	8081	attendance_db
 
---
+✅ Services communicate using service names, not hardcoded ports.
 
-Services communicate using service names, not hardcoded ports.
+# 🔐 Security Overview
+
+- Spring Security enabled in both microservices
+
+- Role-based authorization
+
+- Secure API access
+
+- Production-ready security configuration
